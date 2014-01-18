@@ -8,6 +8,7 @@ Description
 
 
 ###File Structure
+<pre>
 docs              - documentation
 
 src               - source files
@@ -22,3 +23,4 @@ samples           - example code and conigurations
   
 tools             - uilities
 
+</pre>

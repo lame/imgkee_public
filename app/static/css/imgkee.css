@@ -1,6 +1,9 @@
 body{
-	/*position: relative;*/
-	background: url('../images/When Worlds Collide-X2.jpg');
+   
+    background: url('../images/When Worlds Collide-X2.jpg');
+    background-size: 100%;
+    overflow: hidden;
+
 }
 
 .vertical-offset-100{

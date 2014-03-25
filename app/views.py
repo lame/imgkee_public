@@ -26,6 +26,15 @@ def login():
 		return render_template('login.html')
 	return redirect(url_for('index'))
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index')) 
+
+@app.route('/about')
+def about():
+	return render_template('about.html')
+
 @app.before_request
 def before_request():
     g.user = current_user

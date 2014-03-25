@@ -6,7 +6,7 @@ class LoginForm(Form):
 	username = TextField('username', validators = [Required()])
 	password = TextField('password', validators = [Required()])
 	# openid = TextField('openid', validators = [Required()])
-	# remember_me = BooleanField('remember_me', default = False)
+	remember_me = BooleanField('remember_me', default = False)
 
 class CreateAcctForm(Form):
 	username = TextField('username', validators = [Required()])

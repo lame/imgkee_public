@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from forms import LoginForm
+from forms import LoginForm, CreateAcctForm
 from models import User, ROLE_USER, ROLE_ADMIN
 
 @app.route('/')
@@ -10,8 +10,19 @@ from models import User, ROLE_USER, ROLE_ADMIN
 def index():
 	return render_template ('index.html')
 
+# @app.route('/register' , methods=['GET','POST'])
+# def register():
+# 	if request.method == 'GET':
+# 		return render_template('register.html')
+# 	user = User(request.form['username'] , request.form['password'],request.form['email'])
+# 	db.session.add(user)
+# 	db.session.commit()
+# 	flash('User successfully registered')
+# 	return redirect(url_for('login'))
+
 @app.route('/register' , methods=['GET','POST'])
 def register():
+	form = CreateAcctForm()
 	if request.method == 'GET':
 		return render_template('register.html')
 	user = User(request.form['username'] , request.form['password'],request.form['email'])
@@ -20,11 +31,21 @@ def register():
 	flash('User successfully registered')
 	return redirect(url_for('login'))
  
-@app.route('/login',methods=['GET','POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-	if request.method == 'GET':
-		return render_template('login.html')
-	return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        # login and validate the user...
+        login_user(user)
+        flash("Logged in successfully.")
+        return redirect(request.args.get("next") or url_for("index"))
+    return render_template("login.html", form=form)
+
+# @app.route('/login',methods=['GET','POST'])
+# def login():
+# 	if request.method == 'GET':
+# 		return render_template('login.html')
+# 	return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():

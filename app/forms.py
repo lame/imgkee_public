@@ -11,6 +11,7 @@ class LoginForm(Form):
 class CreateAcctForm(Form):
 	username = TextField('username', validators = [Required()])
 	password = TextField('password', validators = [Required()])
+	email = TextField('email', validators = [Required()])
 
 	def validate(self):
 		if not Form.validate(self):

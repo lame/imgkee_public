@@ -20,10 +20,12 @@ def index():
 # 	flash('User successfully registered')
 # 	return redirect(url_for('login'))
 
-@app.route('/register' , methods=['GET','POST'])
+@app.route('/register' , methods=['POST'])
 def register():
-	form = CreateAcctForm()
-	if request.method == 'GET':
+	# form = CreateAcctForm()
+	if request.method == 'POST':
+		user = User()
+	#	user.username = 
 		return render_template('register.html')
 	user = User(request.form['username'] , request.form['password'],request.form['email'])
 	db.session.add(user)

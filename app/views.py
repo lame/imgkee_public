@@ -3,10 +3,11 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm
 from forms import LoginForm, CreateAcctForm
 from models import User, ROLE_USER, ROLE_ADMIN
+import binascii, hashlib, urllib, cStringIO
 
 @app.route('/')
 @app.route('/index')
-@login_required
+# @login_required
 def index():
 	return render_template ('index.html')
 
@@ -20,7 +21,7 @@ def index():
 # 	flash('User successfully registered')
 # 	return redirect(url_for('login'))
 
-@app.route('/register' , methods=['POST'])
+@app.route('/register' , methods=['GET','POST'])
 def register():
 	# form = CreateAcctForm()
 	if request.method == 'POST':
@@ -47,7 +48,7 @@ def login():
 	if 'remember_me' in session:
 		remember_me = session['remember_me']
 		session.pop('remember_me', None)
-	login_user(user, remember = remember_me)
+	# login_user(user, remember = remember_me)
 	flash("Logged in successfully.")
 	return redirect(url_for('index'))
 	# return render_template("login.html", form=form)
@@ -77,4 +78,29 @@ def before_request():
 
 @lm.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.get(int(id))
+
+# Read from a link
+	# file = cStringIO.StringIO(urllib.urlopen(URL).read())
+	# img = Image.open(file)
+
+def dump():
+	ff = open("cat.png", "rb")
+	data = ff.read()
+	ff.close()
+
+	txt = binascii.hexlify(data)
+
+	fw = open("cat.txt", "wb")
+	fw.write(txt)
+	fw.close()
+
+def hash():
+	ff = open("cat.txt", "rb")
+	txt = ff.read()
+
+	m = hashlib.sha512()
+	m.update(txt)
+	key = m.digest()
+
+	print(key)

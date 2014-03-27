@@ -5,7 +5,9 @@ body{
     overflow: hidden;
 
 }
-
+.center {
+    text-align: center;
+}
 .vertical-offset-100{
     padding-top:100px;
 }

@@ -7,11 +7,13 @@ class LoginForm(Form):
 	password = TextField('password', validators = [Required()])
 	# openid = TextField('openid', validators = [Required()])
 	remember_me = BooleanField('remember_me', default = False)
+	uniq = BooleanField('uniq', default = False)
 
 class CreateAcctForm(Form):
-	username = TextField('username', validators = [Required()])
-	password = TextField('password', validators = [Required()])
 	email = TextField('email', validators = [Required()])
+	username = TextField('username', validators = [Required()])
+	password1 = TextField('password', validators = [Required()])
+	password2 = TextField('password', validators = [Required()])
 
 	def validate(self):
 		if not Form.validate(self):

@@ -35,13 +35,22 @@ def register():
  
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        # login and validate the user...
-        login_user(user)
-        flash("Logged in successfully.")
-        return redirect(request.args.get("next") or url_for("index"))
-    return render_template("login.html", form=form)
+	if g.user is not None and g.user.is_authenticated():
+		return redirect(url_for('index'))
+	form = LoginForm()
+	if form.validate_on_submit():
+	# login and validate the user...
+		user = User()
+		db.session.add(user)
+		db.session.commit()		
+	remember_me = False
+	if 'remember_me' in session:
+		remember_me = session['remember_me']
+		session.pop('remember_me', None)
+	login_user(user, remember = remember_me)
+	flash("Logged in successfully.")
+	return redirect(url_for('index'))
+	# return render_template("login.html", form=form)
 
 # @app.route('/login',methods=['GET','POST'])
 # def login():
@@ -57,6 +66,10 @@ def logout():
 @app.route('/about')
 def about():
 	return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+	return render_template('contact.html')
 
 @app.before_request
 def before_request():

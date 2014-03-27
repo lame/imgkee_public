@@ -7,32 +7,22 @@ import binascii, hashlib, urllib, cStringIO
 
 @app.route('/')
 @app.route('/index')
-# @login_required
+@login_required
 def index():
 	return render_template ('index.html')
 
-# @app.route('/register' , methods=['GET','POST'])
-# def register():
-# 	if request.method == 'GET':
-# 		return render_template('register.html')
-# 	user = User(request.form['username'] , request.form['password'],request.form['email'])
-# 	db.session.add(user)
-# 	db.session.commit()
-# 	flash('User successfully registered')
-# 	return redirect(url_for('login'))
-
 @app.route('/register' , methods=['GET','POST'])
 def register():
-	# form = CreateAcctForm()
-	if request.method == 'POST':
-		user = User()
-	#	user.username = 
+	# # form = CreateAcctForm()
+	# if request.method == 'POST':
+	# 	user = User()
+	# #	user.username = 
 		return render_template('register.html')
-	user = User(request.form['username'] , request.form['password'],request.form['email'])
-	db.session.add(user)
-	db.session.commit()
-	flash('User successfully registered')
-	return redirect(url_for('login'))
+	# user = User(request.form['username'] , request.form['password'],request.form['email'])
+	# db.session.add(user)
+	# db.session.commit()
+	# flash('User successfully registered')
+	# return redirect(url_for('login'))
  
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -50,14 +40,8 @@ def login():
 		session.pop('remember_me', None)
 	# login_user(user, remember = remember_me)
 	flash("Logged in successfully.")
-	return redirect(url_for('index'))
-	# return render_template("login.html", form=form)
-
-# @app.route('/login',methods=['GET','POST'])
-# def login():
-# 	if request.method == 'GET':
-# 		return render_template('login.html')
-# 	return redirect(url_for('index'))
+	# return redirect(url_for('index'))
+	return render_template("login.html", form=form)
 
 @app.route('/logout')
 def logout():

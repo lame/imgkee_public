@@ -20,7 +20,7 @@ class LoginForm(Form):
 	uniq = fields.BooleanField(default = False)
 
 	def get_user(self):
-		return db.session.query(User).filter_by(name=self.name.data).first()
+		return db.session.query(User).filter_by(username=self.username.data).first()
 
 class RegistrationForm(Form):
 	email = fields.TextField(validators = [Required()])
@@ -29,9 +29,9 @@ class RegistrationForm(Form):
 	confirm = fields.PasswordField(validators=[Required()])
 
 	def validate_name(self, field):
-		if db.session.query(User).filter_by(name=self.name.data).count() > 0:
-			raise validators.ValidationError('Duplicate name')
+		if db.session.query(User).filter_by(username=self.username.data).count() > 0:
+			raise validators.ValidationError('Duplicate username')
 
-	def validate_email(self, field):
-		if db.session.query(User).filter_by(email=self.email.data).count() > 0:
-			raise validators.ValidationError('Duplicate email')	
+	# def validate_email(self, field):
+	# 	if db.session.query(User).filter_by(email=self.email.data).count() > 0:
+	# 		raise validators.ValidationError('Duplicate email')	

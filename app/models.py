@@ -1,16 +1,22 @@
 from app import db
+# from flask.ext.admin.contrib.sqla import ModelView
+from mixins import CRUDMixin
+from flask.ext.login import UserMixin
+from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
-class User(db.Model):
+class User(UserMixin, CRUDMixin, db.Model):
     __tablename__ = "users"
     id = db.Column('user_id',db.Integer , primary_key=True)
     username = db.Column('username', db.String(20), unique=True , index=True)
     password = db.Column('password' , db.String(20))
     email = db.Column('email',db.String(50),unique=True , index=True)
     registered_on = db.Column('registered_on' , db.DateTime)
+
+    db = db.relationship('Database', backref='user', lazy='dynamic')
  
     def __init__(self , username ,password , email):
         self.username = username
@@ -32,3 +38,15 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+
+class Database(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    username = db.Column(db.String(255), unique = True)
+
+    def get_id(self):
+        return unicode(self.id)
+
+    def __repr__(self):
+        return '%r' % (self.username)

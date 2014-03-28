@@ -1,19 +1,23 @@
-from flask.ext.wtf import Form
+from flask.ext.wtf import Form, fields, validators
+from flask.ext.wtf import Required, Email, ValidationError, Length
 from wtforms import TextField, BooleanField, TextAreaField
-from wtforms.validators import Required, Length
+from models import User
+# from wtforms.validators import Required, Length
 
 class LoginForm(Form):
-	username = TextField('username', validators = [Required()])
-	password = TextField('password', validators = [Required()])
-	# openid = TextField('openid', validators = [Required()])
-	remember_me = BooleanField('remember_me', default = False)
-	uniq = BooleanField('uniq', default = False)
+	username = fields.TextField('username', validators = [Required()])
+	password = fields.PasswordField(validators=[Required()])
+	remember_me = fields.BooleanField('remember_me', default = False)
+	uniq = fields.BooleanField('uniq', default = False)
+
+	def get_user(self):
+		return db.session.query(User).filter_by(name=self.name.data).first()
 
 class CreateAcctForm(Form):
-	email = TextField('email', validators = [Required()])
-	username = TextField('username', validators = [Required()])
-	password1 = TextField('password', validators = [Required()])
-	password2 = TextField('password', validators = [Required()])
+	email = fields.TextField('email', validators = [Required()])
+	username = fields.TextField('username', validators = [Required()])
+	password1 = fields.TextField('password', validators = [Required()])
+	password2 = fields.TextField('password', validators = [Required()])
 
 	def validate(self):
 		if not Form.validate(self):

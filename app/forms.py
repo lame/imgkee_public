@@ -22,7 +22,7 @@ class LoginForm(Form):
 	def get_user(self):
 		return db.session.query(User).filter_by(name=self.name.data).first()
 
-class CreateAcctForm(Form):
+class RegistrationForm(Form):
 	email = fields.TextField(validators = [Required()])
 	username = fields.TextField(validators = [Email()])
 	password = fields.PasswordField('New Password', [ validators.Required(), validators.EqualTo('confirm', message='Passwords must match') ])

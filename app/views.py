@@ -1,47 +1,42 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from forms import LoginForm, CreateAcctForm
+from forms import LoginForm, RegistrationForm
 from models import User, ROLE_USER, ROLE_ADMIN
 import binascii, hashlib, urllib, cStringIO
+
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-	return render_template ('index.html')
+	return render_template ('index.html', title = 'Home')
 
 @app.route('/register' , methods=['GET','POST'])
 def register():
-	# # form = CreateAcctForm()
-	# if request.method == 'POST':
-	# 	user = User()
-	# #	user.username = 
-		return render_template('register.html')
-	# user = User(request.form['username'] , request.form['password'],request.form['email'])
-	# db.session.add(user)
-	# db.session.commit()
-	# flash('User successfully registered')
-	# return redirect(url_for('login'))
+	form = RegistrationForm(request.form)
+	if form.validate_on_submit():
+		print form;
+		user = User()
+		form.populate_obj(user)
+		db.session.add(user)
+		db.session.commit()
+		login_user(user)
+		return redirect(url_for('register.html'))
+	return render_template('register.html', form = form, title = 'Register')
  
 @app.route("/login", methods=["GET", "POST"])
 def login():
-	if g.user is not None and g.user.is_authenticated():
-		return redirect(url_for('index'))
-	form = LoginForm()
+	form = LoginForm(request.form)
 	if form.validate_on_submit():
-	# login and validate the user...
-		user = User()
-		db.session.add(user)
-		db.session.commit()		
-	remember_me = False
-	if 'remember_me' in session:
-		remember_me = session['remember_me']
-		session.pop('remember_me', None)
-	# login_user(user, remember = remember_me)
-	flash("Logged in successfully.")
-	# return redirect(url_for('index'))
-	return render_template("login.html", form=form)
+		user = form.get_user()
+		login_user(user)
+		flash("Logged in successfully.")
+		return redirect(request.args.get("next") or url_for("index"))
+	return render_template('login.html', form=form, title = 'Login')
 
 @app.route('/logout')
 def logout():
@@ -50,19 +45,15 @@ def logout():
 
 @app.route('/about')
 def about():
-	return render_template('about.html')
+	return render_template('about.html', title = 'About')
 
 @app.route('/contact')
 def contact():
-	return render_template('contact.html')
+	return render_template('contact.html', title = 'Contact')
 
 @app.before_request
 def before_request():
     g.user = current_user
-
-@lm.user_loader
-def load_user(id):
-    return User.get(int(id))
 
 # Read from a link
 	# file = cStringIO.StringIO(urllib.urlopen(URL).read())

@@ -12,9 +12,7 @@
                     <form action="" method=POST class="form-horizontal">
                         <div class="control-group">
                             <div class="controls">
-                              <!-- <input type="text" id="username" name="username" class="input-xlarge" -->
-                              <!-- placeholder="Enter Username" value="{{ request.form.username }}" -->
-                              <!-- required> -->
+
                               {{ form.csrf_token }}
                               {{ render_field(form.email, class="input-xlarge", placeholder="email") }}
                               {{ render_field(form.username, class="input-xlarge", placeholder="username") }}
@@ -22,32 +20,15 @@
                               {{ render_field(form.confirm, class="input-xlarge", placeholder="confirm password") }}
                           </div>
                       </div>
-<!-- 
                       <div class="control-group">
                         <div class="controls">
-                          <input type="password" id="password" name="password" class="input-xlarge"
-                          placeholder="Enter Password" value="{{ request.form.password }}"
-                          required>
+                          <button type="submit" id="sign_up" class="btn btn-success">Sign up</button>
                       </div>
                   </div>
-
-                  <div class="control-group">
-                    <div class="controls">
-                      <input type="email" id="email" name="email" class="input-xlarge"
-                      placeholder="Enter Email" value="{{ request.form.username }}"
-                      required>
-                  </div>
-              </div>
-          -->
-          <div class="control-group">
-            <div class="controls">
-              <button type="submit" id="sign_up" class="btn btn-success">Sign up</button>
+              </form>
           </div>
       </div>
-  </form>
-</div>
-</div>
-</div>
+  </div>
 </div>
 </div>
 

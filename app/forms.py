@@ -4,28 +4,34 @@ from wtforms import TextField, BooleanField, TextAreaField
 from models import User
 # from wtforms.validators import Required, Length
 
+def validate_login(form, field):
+	user = form.get_user()
+
+	if user is None:
+		raise validators.ValidationError('Invalid user')
+
+	if user.password != form.password.data:
+		raise validators.ValidationError('Invalid password')
+
 class LoginForm(Form):
-	username = fields.TextField('username', validators = [Required()])
+	username = fields.TextField(validators = [Required()])
 	password = fields.PasswordField(validators=[Required()])
-	remember_me = fields.BooleanField('remember_me', default = False)
-	uniq = fields.BooleanField('uniq', default = False)
+	remember_me = fields.BooleanField(default = False)
+	uniq = fields.BooleanField(default = False)
 
 	def get_user(self):
 		return db.session.query(User).filter_by(name=self.name.data).first()
 
 class CreateAcctForm(Form):
-	email = fields.TextField('email', validators = [Required()])
-	username = fields.TextField('username', validators = [Required()])
-	password1 = fields.TextField('password', validators = [Required()])
-	password2 = fields.TextField('password', validators = [Required()])
+	email = fields.TextField(validators = [Required()])
+	username = fields.TextField(validators = [Email()])
+	password = fields.PasswordField('New Password', [ validators.Required(), validators.EqualTo('confirm', message='Passwords must match') ])
+	confirm = fields.PasswordField(validators=[Required()])
 
-	def validate(self):
-		if not Form.validate(self):
-			return False
-		if self.username.data == self.original_username:
-			return True
-		user = User.query.filter_by(username = self.username.data).first()
-		if user != None:
-			self.username.errors.append('This email is already in use. Please choose another one.')
-			return False
-		return True
+	def validate_name(self, field):
+		if db.session.query(User).filter_by(name=self.name.data).count() > 0:
+			raise validators.ValidationError('Duplicate name')
+
+	def validate_email(self, field):
+		if db.session.query(User).filter_by(email=self.email.data).count() > 0:
+			raise validators.ValidationError('Duplicate email')	

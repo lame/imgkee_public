@@ -9,16 +9,15 @@ ROLE_USER = 0
 ROLE_ADMIN = 1
 
 class User(UserMixin, CRUDMixin, db.Model):
-    __tablename__ = "users"
-    id = db.Column('user_id',db.Integer , primary_key=True)
-    username = db.Column('username', db.String(20), unique=True , index=True)
-    password = db.Column('password' , db.String(20))
-    email = db.Column('email',db.String(50),unique=True , index=True)
-    registered_on = db.Column('registered_on' , db.DateTime)
+    id = db.Column(db.Integer , primary_key=True)
+    username = db.Column(db.String(20), unique=True , index=True)
+    password = db.Column(db.String(20))
+    email = db.Column(db.String(50),unique=True , index=True)
+    registered_on = db.Column(db.DateTime)
 
     db = db.relationship('Database', backref='user', lazy='dynamic')
  
-    def __init__(self , username ,password , email):
+    def __init__(self , username = None ,password = None , email = None):
         self.username = username
         self.password = password
         self.email = email

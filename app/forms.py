@@ -19,6 +19,7 @@ class LoginForm(Form):
     name = fields.TextField(validators=[Required()])
     password = fields.PasswordField(validators=[Required(), validate_login])
 
+
     def get_user(self):
         return db.session.query(User).filter_by(name=self.name.data).first()
 
@@ -30,6 +31,7 @@ class RegistrationForm(Form):
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = fields.PasswordField(validators=[Required()])
+    uniq = fields.BooleanField()
 
     def validate_name(self, field):
         if db.session.query(User).filter_by(name=self.name.data).count() > 0:

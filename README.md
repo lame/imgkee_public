@@ -1,11 +1,10 @@
+
+
 #imgKee
 Picture Password Gateway Authentication
 
 ##What is imgKee?
 Description
-
-
-
 
 ###File Structure
 <pre>

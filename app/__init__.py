@@ -1,8 +1,12 @@
-import os
-from flask import Flask, render_template
+from flask import Flask
+from flask.ext.assets import Environment, Bundle
+from flask_oauthlib.client import OAuth
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager, current_user
+from flask.ext.login import LoginManager
+from flask.ext.openid import OpenID
+from flask.ext.mail import Mail
 from config import basedir
+import os
 
 app = Flask(__name__)
 

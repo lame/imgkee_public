@@ -30,7 +30,7 @@
                 	{% endif %}
                 	{% if not g.user.is_authenticated()%}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                    <li><a href="{{ url_for('create_acct') }}">Register</a></li>
                 	{% endif %}
 			<li><a href="{{ url_for('contact')}}">Contact Us</a></li>
 		</ul>

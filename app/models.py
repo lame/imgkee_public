@@ -10,42 +10,40 @@ ROLE_ADMIN = 1
 
 class User(UserMixin, CRUDMixin, db.Model):
     id = db.Column(db.Integer , primary_key=True)
-    username = db.Column(db.String(20), unique=True , index=True)
+    name = db.Column(db.String(20), unique=True , index=True)
     password = db.Column(db.String(20))
     email = db.Column(db.String(50),unique=True , index=True)
     registered_on = db.Column(db.DateTime)
 
     db = db.relationship('Database', backref='user', lazy='dynamic')
  
-    def __init__(self , username = None ,password = None , email = None):
-        self.username = username
-        self.password = password
+    def __init__(self, name=None, email=None, password=None):
+        self.name = name
         self.email = email
-        self.registered_on = datetime.utcnow()
-
-    def is_authenticated(self):
-        return True
+        self.password = password
 
     def is_active(self):
         return True
 
-    def is_anonymous(self):
-        return False
-
     def get_id(self):
         return unicode(self.id)
 
-    def __repr__(self):
-        return '<User %r>' % (self.username)
+    def is_admin(self):
+        if self.role > 0:
+            return True
+        else:
+            return False
 
+    def __repr__(self):
+        return '<User %r>' % (self.nickname)
 
 class Database(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    username = db.Column(db.String(255), unique = True)
+    name = db.Column(db.String(255), unique = True)
 
     def get_id(self):
         return unicode(self.id)
 
     def __repr__(self):
-        return '%r' % (self.username)
+        return '%r' % (self.name)

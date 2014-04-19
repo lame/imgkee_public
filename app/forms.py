@@ -17,6 +17,7 @@ def validate_login(form, field):
 
 class LoginForm(Form):
     name = fields.TextField(validators=[Required()])
+    
     password = fields.PasswordField(validators=[Required(), validate_login])
 
     def get_user(self):

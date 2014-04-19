@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm
+from app import app, db, lm, ALLOWED_EXTENSIONS, html_theme, html_theme_path
+from werkzeug.wsgi import SharedDataMiddleware
 from forms import LoginForm, RegistrationForm
 from models import User, ROLE_USER, ROLE_ADMIN
 import binascii, hashlib, urllib, cStringIO
@@ -72,6 +73,10 @@ def internal_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500
+
+def allowed_file(filename):
+	return '.' in filename and \
+		filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def dump():
 	ff = open("cat.png", "rb")

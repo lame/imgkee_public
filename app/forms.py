@@ -19,7 +19,6 @@ class LoginForm(Form):
     name = fields.TextField(validators=[Required()])
     password = fields.PasswordField(validators=[Required(), validate_login])
 
-
     def get_user(self):
         return db.session.query(User).filter_by(name=self.name.data).first()
 

@@ -18,10 +18,11 @@ def create_acct():
 		return redirect(url_for('index'))
 	return render_template('register.html', title = "Create Account", form=form)
 
-@app.route('/login/',methods=['GET','POST'])
+@app.route('/login/',methods=['GET', 'POST'])
 def login():
 	form = LoginForm(request.form)
 	if form.validate_on_submit():
+		print "this is happening"
 		user = form.get_user()
 		login_user(user)
 		flash("Logged in successfully.")

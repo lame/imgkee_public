@@ -13,16 +13,15 @@
             <div class="control-group">
               <div class="controls">
                 {{ form.csrf_token }}
-                {{ render_field(form.email, class="input-xlarge", placeholder="email") }}
                 {{ render_field(form.name, class="input-xlarge", placeholder="username") }}
                 {{ render_field(form.password, class="input-xlarge", placeholder="password") }}
                 {{ render_field(form.confirm, class="input-xlarge", placeholder="confirm password") }}
-                <div class="checkbox">
+<!--                 <div class="checkbox">
                   <label>
                     {{ form.uniq }} uniQ
                   </label>
                 </div>
-              </div>
+ -->              </div>
             </div>
             <div class="control-group">
               <div class="controls">

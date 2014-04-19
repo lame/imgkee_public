@@ -12,14 +12,15 @@ class User(UserMixin, CRUDMixin, db.Model):
     id = db.Column(db.Integer , primary_key=True)
     name = db.Column(db.String(20), unique=True , index=True)
     password = db.Column(db.String(20))
-    email = db.Column(db.String(50),unique=True , index=True)
-    registered_on = db.Column(db.DateTime)
+    # email = db.Column(db.String(50),unique=True , index=True)
+    # registered_on = db.Column(db.DateTime)
 
+    role = db.Column(db.SmallInteger, default = ROLE_USER)
     db = db.relationship('Database', backref='user', lazy='dynamic')
  
-    def __init__(self, name=None, email=None, password=None):
+    def __init__(self, name=None, password=None):
         self.name = name
-        self.email = email
+        # self.email = email
         self.password = password
 
     def is_active(self):

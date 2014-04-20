@@ -7,7 +7,6 @@ from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
 from flask.ext.mail import Mail
 from config import basedir
-import sphinx_rtd_theme
 import os
 
 app = Flask(__name__)
@@ -18,9 +17,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
-
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 app.config.from_object('config')
 

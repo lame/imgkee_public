@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, ALLOWED_EXTENSIONS, html_theme, html_theme_path
+from app import app, db, lm, ALLOWED_EXTENSIONS
 from werkzeug.wsgi import SharedDataMiddleware
 from forms import LoginForm, RegistrationForm
 from models import User, ROLE_USER, ROLE_ADMIN

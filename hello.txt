@@ -1,0 +1,17 @@
+Simple text followed by binary data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1	ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ

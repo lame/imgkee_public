@@ -12,21 +12,26 @@ def validate_login(form, field):
 
     # if user.consent is False:
     #     raise validators.ValidationError('Registration cannot be completed withouth consent')
-
-    if user.password != form.password.data:
+    print get_pass(form)
+    if user.password != get_pass(form):
         raise validators.ValidationError('Invalid password')
 
 class LoginForm(Form):
     name = fields.TextField(validators=[Required()])
-    
-    password = fields.PasswordField(validators=[Required(), validate_login])
+    img = fields.FileField('password')
+    #password = fields.PasswordField(validators=[Required(), validate_login])
 
     def get_user(self):
         return db.session.query(User).filter_by(name=self.name.data).first()
 
+    def get_pass(self):
+        return db.session.query(User).filter_by(password=self.password.data).first()
+
 class RegistrationForm(Form):
     name = fields.TextField('Username', validators=[Required()])
-    password = fields.FileField('Password')
+    img = fields.FileField('password', validators=[Required(), validate_login])
+
+    
     # email = fields.TextField(validators=[Email(), Required()])
     #password = fields.PasswordField('New Password', [
     #    validators.Required(),

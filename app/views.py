@@ -39,9 +39,9 @@ def login():
         	filename = secure_filename(file.filename)
         	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         	mess = dump(file.filename)
-        	form.password = hashify(mess)
+        	hash_pass = hashify(mess)
 		user = form.get_user()
-		user.password = form.password
+		user.password = hash_pass
 		if db.session.query(User).filter_by(name=user.name,password=user.password).first():
 			if(login_user(user)):
 				flash("Logged in successfully.")

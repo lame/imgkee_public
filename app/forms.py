@@ -29,7 +29,7 @@ class LoginForm(Form):
 
 class RegistrationForm(Form):
     name = fields.TextField('Username', validators=[Required()])
-    img = fields.FileField('password', validators=[Required(), validate_login])
+    img = fields.FileField('password')
 
     
     # email = fields.TextField(validators=[Email(), Required()])

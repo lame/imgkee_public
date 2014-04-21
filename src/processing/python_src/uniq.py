@@ -60,6 +60,12 @@ class UniqClass:
                     struct.pack('B', random.randint(0, 255))
             self.imgdata.Write()
         
+        # PNG only has one salt function
+        elif isinstance(self.imgdata, PNGImage):
+            self.imgdata.Salt(self.num_ops)
+                
+            
+            
         else:
             print("SaltByBytes not yet finished")
     
@@ -69,8 +75,25 @@ class UniqClass:
     
     
     def SimpleBlur(self):                       # salt by simple blur
-        print("SimpleBLur not yet finished")
+        if isinstance(self.imgdata, BMPImage):
+            
+            for i in range(self.num_ops):
+                loc = self.imgdata.h_pixel_loc
+                end = loc + self.imgdata.d_size
+                
+                x = random.randint(0, self.imgdata.d_width)
+                y = random.randint(0, self.imgdata.d_height)
+                
+                R = G = B = 0
 
+                    
+                self.imgdata.writebuffer[random.randint(loc, end)] = \
+                    struct.pack('B', random.randint(0, 255))
+            self.imgdata.Write()
+        
+        # PNG only has one salt function
+        elif isinstance(self.imgdata, PNGImage):
+            self.imgdata.Salt(self.num_ops)
 
     def BetterBlur(self):                       # salt by advanced blur
         print("BetterBlur not yet finished")
@@ -86,8 +109,10 @@ class UniqClass:
 
 
 
-
-
+def GetPixel(path, w, h, x, y, bpp):
+    ifile = open(path, 'rb')
+    
+    
 
 
 

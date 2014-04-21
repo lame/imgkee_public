@@ -1,6 +1,6 @@
 # contains classes for reading/writing of data to image files
 
-import os, sys, binascii, struct
+import os, sys, binascii, struct, re, random
 
 # parent class of all image classes
 class Image:
@@ -81,13 +81,39 @@ class BMPImage(Image):
                  self.d_BPP,    self.d_comp,    self.d_size,    self.d_horiz, \
                  self.d_vert,   self.d_colors,  self.d_icolors) )
         
+        
+        
+        
+        
+        
+        
 class PNGImage(Image):
     def __init__(self, path):
         super().__init__(path)
         ifile = open(self.path, 'rb')
         
+        self.signature      = bytearray( ifile.read(8) )
         
         ifile.close()
+        
+    def Salt(self, num_ops):
+        datablocks  = GetSubstrings(open(self.path, "rb").read(), b'IDAT')
+        dataranges  = {}
+        ifile = open(self.path, 'r+b')
+        for loc in datablocks:
+            ifile.seek(loc-4)
+            len, = struct.unpack('>I', ifile.read(4))
+            dataranges[loc] = len
+        print(dataranges)
+
+        for x in range(num_ops):
+            loc = random.choice(datablocks)
+            off = random.randint(0, dataranges[loc])  +  loc+4
+            
+            self.writebuffer[off] = struct.pack('B', random.randint(0, 255)) 
+
+        ifile.close()
+        self.Write()
         
     
 class JPGImage(Image):
@@ -136,3 +162,15 @@ def GetImageMode(path):
         return 0                        # invalid or unsupported file type
         
         
+
+def GetSubstrings(main_string, sub):
+    return [s.start() for s in re.finditer(sub, main_string)]
+
+
+
+
+
+
+
+
+

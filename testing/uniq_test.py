@@ -44,35 +44,48 @@ if __name__ == '__main__':
     print(Hashify("small-copy.bmp", 3))              # print hash of copy
    
     input("\nPress return key to move on to next salting demo...")
+#    
+#    print("\nHash of small-copy.bmp - salt by pixels")
+#    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
+#    Uniq("small-copy.bmp", 1)                        # salt the copy
+#    print(Hashify("small-copy.bmp", 3))              # print hash of copy
+#    
+#    input("\nPress return key to move on to next salting demo...")
+#    
+#    print("\nHash of small-copy.bmp - simple blur")
+#    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
+#    Uniq("small-copy.bmp", 2)                        # salt the copy
+#    print(Hashify("small-copy.bmp", 3))              # print hash of copy
+#    
+#    input("\nPress return key to move on to next salting demo...")
+#    
+#    print("\nHash of small-copy.bmp - better blur")
+#    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
+#    Uniq("small-copy.bmp", 3)                        # salt the copy
+#    print(Hashify("small-copy.bmp", 3))              # print hash of copy
+#    
+#    input("\nPress return key to move on to next salting demo...")
+#    
+#    print("\nHash of small-copy.bmp - low-key salt")
+#    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
+#    Uniq("small-copy.bmp", 4)                        # salt the copy
+#    print(Hashify("small-copy.bmp", 3))              # print hash of copy
     
-    print("\nHash of small-copy.bmp - salt by pixels")
-    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
-    Uniq("small-copy.bmp", 1)                        # salt the copy
-    print(Hashify("small-copy.bmp", 3))              # print hash of copy
     
-    input("\nPress return key to move on to next salting demo...")
-    
-    print("\nHash of small-copy.bmp - simple blur")
-    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
-    Uniq("small-copy.bmp", 2)                        # salt the copy
-    print(Hashify("small-copy.bmp", 3))              # print hash of copy
-    
-    input("\nPress return key to move on to next salting demo...")
-    
-    print("\nHash of small-copy.bmp - better blur")
-    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
-    Uniq("small-copy.bmp", 3)                        # salt the copy
-    print(Hashify("small-copy.bmp", 3))              # print hash of copy
-    
-    input("\nPress return key to move on to next salting demo...")
-    
-    print("\nHash of small-copy.bmp - low-key salt")
-    shutil.copyfile("small.bmp", "small-copy.bmp")      # copy file
-    Uniq("small-copy.bmp", 4)                        # salt the copy
-    print(Hashify("small-copy.bmp", 3))              # print hash of copy
+#    input("\nPress return key to move on to next salting demo...")
     
     
-
+    
+    
+    print("\n\n\n====== Hashing salted copy of image: ======")
+    print("Hash of other.png - (sha256)")
+    print(Hashify("other.png", 3))
+    
+    #salt by bytes, PNG
+    print("\nHash of other-copy.png - salt by bytes")
+    shutil.copyfile("other.png", "other-copy.png")      # copy file
+    Uniq("other-copy.png", 0)                        # salt the copy
+    print(Hashify("other-copy.png", 3))              # print hash of copy
     
     
     

@@ -17,10 +17,11 @@ AvailableHashers    = ('md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512')
 cwd                 = os.getcwd()
 
 # returns a hex hash string, or 0 if file cannot be found
-def Hashify(filename, mode=5):
+def Hashify(filename, mode=5, quiet=0):
     h = Hasher(mode)
     if not h.LoadFile(GetTruePath(filename)):
-        sys.stderr.write('\nERROR: Cannot locate file "' + filename + '"\n')
+        if not quiet:
+            sys.stderr.write('\nERROR: Cannot locate file "' + filename + '"\n')
         return 0
     else:
         return h.Digest()

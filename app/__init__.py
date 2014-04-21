@@ -12,6 +12,7 @@ import os
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
+global hash_pass
 UPLOAD_FOLDER = 'butts'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'jpeg', 'gif'])
 
@@ -24,6 +25,7 @@ lm.login_view = 'login'
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
+
 
 
 from app import views, models

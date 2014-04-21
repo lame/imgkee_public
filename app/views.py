@@ -8,10 +8,6 @@ from werkzeug import secure_filename
 import binascii, hashlib, urllib, cStringIO, os
 
 
-
-
-
-
 @app.route('/create_acct/' , methods=['GET','POST'])
 def create_acct():
 	form = RegistrationForm(request.form)
@@ -22,6 +18,8 @@ def create_acct():
         if file and allowed_file(file.filename):
         	filename = secure_filename(file.filename)
         	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        	mess = dump(file.filename)
+        	password = hashify(mess)
 		user = User()
 		form.populate_obj(user)
 		db.session.add(user)
@@ -93,23 +91,17 @@ def upload(request):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-def dump():
-	ff = open("cat.png", "rb")
+def dump(filename):
+	ff = open('butts/'+filename, "rb")
 	data = ff.read()
 	ff.close()
 
 	txt = binascii.hexlify(data)
+	return txt
 
-	fw = open("cat.txt", "wb")
-	fw.write(txt)
-	fw.close()
+def hashify(hexdump):
 
-def hash():
-	ff = open("cat.txt", "rb")
-	txt = ff.read()
+	hexhash = hashlib.sha512(hexdump).hexdigest()
 
-	m = hashlib.sha512()
-	m.update(txt)
-	key = m.digest()
 
-	print(key)
+	return hexhash

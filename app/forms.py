@@ -26,7 +26,7 @@ class LoginForm(Form):
 
 class RegistrationForm(Form):
     name = fields.TextField('Username', validators=[Required()])
-    password = fields.FileField(u'Password')
+    password = fields.FileField('Password')
     # email = fields.TextField(validators=[Email(), Required()])
     #password = fields.PasswordField('New Password', [
     #    validators.Required(),

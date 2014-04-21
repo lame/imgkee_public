@@ -11,7 +11,7 @@ ROLE_ADMIN = 1
 class User(UserMixin, CRUDMixin, db.Model):
     id = db.Column(db.Integer , primary_key=True)
     name = db.Column(db.String(20), unique=True , index=True)
-    password = db.Column(db.String(2000))
+    password = db.Column(db.String(200000))
     # email = db.Column(db.String(50),unique=True , index=True)
     # registered_on = db.Column(db.DateTime)
 

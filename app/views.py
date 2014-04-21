@@ -42,12 +42,14 @@ def login():
         	form.password = hashify(mess)
 		user = form.get_user()
 		user.password = form.password
-		if(login_user(user)):
-			flash("Logged in successfully.")
-			return redirect(request.args.get("next") or url_for("index"))
+		if db.session.query(User).filter_by(name=user.name,password=user.password).first():
+			if(login_user(user)):
+				flash("Logged in successfully.")
+				return redirect(request.args.get("next") or url_for("index"))
 		else:
-			flash("fuck ou butty")
-			return redirect(request.args.get("next") or url_for("about"))
+				flash("fuck ou butty")
+				return redirect(request.args.get("next") or url_for("about"))	
+
 	return render_template('login.html', title = "Login", form=form)
 
 @app.route('/forgot_passwd')

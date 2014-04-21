@@ -25,13 +25,15 @@ class LoginForm(Form):
 
 class RegistrationForm(Form):
     name = fields.TextField('Username', validators=[Required()])
+    password = fields.FileField('Password',validators=[Required()])
     # email = fields.TextField(validators=[Email(), Required()])
-    password = fields.PasswordField('New Password', [
-        validators.Required(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = fields.PasswordField(validators=[Required()])
-    # uniq = fields.BooleanField()
+    #password = fields.PasswordField('New Password', [
+    #    validators.Required(),
+    #    validators.EqualTo('confirm', message='Passwords must match')
+    #])
+    #confirm = fields.PasswordField(validators=[Required()])
+    #uniq = fields.BooleanField()
+
 
     def validate_name(self, field):
         if db.session.query(User).filter_by(name=self.name.data).count() > 0:

@@ -12,7 +12,10 @@ import os
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
+UPLOAD_FOLDER = 'butts'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'jpeg', 'gif'])
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 lm = LoginManager()
 lm.init_app(app)

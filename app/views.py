@@ -4,25 +4,24 @@ from app import app, db, lm, ALLOWED_EXTENSIONS
 from werkzeug.wsgi import SharedDataMiddleware
 from forms import LoginForm, RegistrationForm
 from models import User, ROLE_USER, ROLE_ADMIN
-import binascii, hashlib, urllib, cStringIO
-
-UPLOAD_FOLDER = 'butts'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+from werkzeug import secure_filename
+import binascii, hashlib, urllib, cStringIO, os
 
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 
 @app.route('/create_acct/' , methods=['GET','POST'])
 def create_acct():
 	form = RegistrationForm(request.form)
-	
+	file = 0
 	if form.validate_on_submit():
 		print form
+		file = request.files['password']
+        if file and allowed_file(file.filename):
+        	filename = secure_filename(file.filename)
+        	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		user = User()
 		form.populate_obj(user)
 		db.session.add(user)
@@ -91,6 +90,9 @@ def upload(request):
         	image_data = request.FILES[form.image.name].read()
         	open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 def dump():
 	ff = open("cat.png", "rb")
 	data = ff.read()

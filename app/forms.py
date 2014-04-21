@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form, fields, validators
 from flask.ext.wtf import Required, Email, ValidationError
+from flask.ext.wtf.file import FileField,FileRequired, FileAllowed
 from models import User
 from app import db
 
@@ -25,7 +26,7 @@ class LoginForm(Form):
 
 class RegistrationForm(Form):
     name = fields.TextField('Username', validators=[Required()])
-    password = fields.FileField('Password',validators=[Required()])
+    password = fields.FileField(u'Password')
     # email = fields.TextField(validators=[Email(), Required()])
     #password = fields.PasswordField('New Password', [
     #    validators.Required(),

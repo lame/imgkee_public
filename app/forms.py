@@ -28,7 +28,7 @@ class LoginForm(Form):
         return db.session.query(User).filter_by(password=self.password.data).first()
 
 class RegistrationForm(Form):
-    name = fields.TextField('Username', validators=[Required()])
+    name = fields.TextField(validators=[Required()])
     img = fields.FileField('password')
 
     

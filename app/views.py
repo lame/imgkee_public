@@ -35,19 +35,22 @@ def login():
 	file = 0
 	if form.validate_on_submit():
 		file = request.files['img']
+	# else:
+	# 	flash("Incorrect Login")
+	# 	return redirect(request.args.get("next") or url_for("login"))
         if file and allowed_file(file.filename):
         	filename = secure_filename(file.filename)
         	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         	mess = dump(file.filename)
         	hash_pass = hashify(mess)
-		user = form.get_user()
+		user = form.get_user()	#Problem is right here, if user is not in DB, the next line fucks up
 		user.password = hash_pass
 		if db.session.query(User).filter_by(name=user.name,password=user.password).first():
 			if(login_user(user)):
 				flash("Logged in successfully.")
 				return redirect(request.args.get("next") or url_for("index"))
 		else:
-				flash("fuck ou butty")
+				flash("Incorrect Login")
 				return redirect(request.args.get("next") or url_for("login"))	
 
 	return render_template('login.html', title = "Login", form=form)
@@ -73,6 +76,11 @@ def load_user(id):
 @app.before_request
 def before_request():
 	g.user = current_user
+
+@app.route('/docs/')
+def docs():
+	return render_template('docs.html', 
+		title = "The Docs")
 
 @app.route('/logout/')
 def logout():
